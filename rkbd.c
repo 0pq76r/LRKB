@@ -108,6 +108,7 @@ start:;
 	{
 		if(!read(src, &data, 4)){
 			close(src);
+			sleep(5);
 			goto start;
 		}		
 		if(data<1024)
