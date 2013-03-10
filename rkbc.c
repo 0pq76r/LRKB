@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 	
-	int dst=client("127.0.0.1", 12345);
+	int dst=client("192.168.1.228", 12345);
 	
 	while(1)
 	{

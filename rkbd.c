@@ -92,8 +92,9 @@ void release_key(int keycode){
 
 int main(int argc, char **argv)
 {
-	char keys[1024]={0};
-	
+start:;
+	char keys[1024]={0};	
+
 	if(init_uinput()<0)
 	{
 		perror("init_uinput failed");
@@ -105,8 +106,10 @@ int main(int argc, char **argv)
 	
 	while(1)
 	{
-		read(src, &data, 4);
-		
+		if(!read(src, &data, 4)){
+			close(src);
+			goto start;
+		}		
 		if(data<1024)
 		{
 			printf("Got Keycode: %i\n", data);
