@@ -92,7 +92,6 @@ void release_key(int keycode){
 
 int main(int argc, char **argv)
 {
-start:;
 	char keys[1024]={0};	
 
 	if(init_uinput()<0)
@@ -107,9 +106,7 @@ start:;
 	while(1)
 	{
 		if(!read(src, &data, 4)){
-			close(src);
-			sleep(5);
-			goto start;
+			exit(1);
 		}		
 		if(data<1024)
 		{
