@@ -37,13 +37,17 @@ int init_uinput(){
 	memset(&dev, 0, sizeof(struct uinput_user_dev));
 	strcpy(dev.name, "RKBD");
 	
-	ioctl(uinput_fd, UI_SET_EVBIT, EV_KEY);
-	
-	for(a=0;a<256;a++)
-	{
+	for(a=0;a<=EV_MAX;a++)
+		ioctl(uinput_fd, UI_SET_EVBIT, a);
+	for(a=0;a<=KEY_MAX;a++)
 		ioctl(uinput_fd, UI_SET_KEYBIT, a);
-	}
-	
+	for(a=0;a<=REL_MAX;a++)
+		ioctl(uinput_fd, UI_SET_RELBIT, a);
+	for(a=0;a<=ABS_MAX;a++)
+		ioctl(uinput_fd, UI_SET_ABSBIT, a);
+	for(a=0;a<=MSC_MAX;a++)
+		ioctl(uinput_fd, UI_SET_MSCBIT, a);
+
 	write(uinput_fd, &dev, sizeof(struct uinput_user_dev));
 	
 	return ioctl(uinput_fd, UI_DEV_CREATE)?-1:0;
@@ -120,6 +124,15 @@ int main(int argc, char **argv)
 			{
 				release_key(data);
 			}			
+		}
+		else
+		{
+			int i;
+			for(i=0;i<1024;i++)
+			{
+				release_key(i);
+			}
+			memset(keys, 0, 1024);
 		}
 	}
 	
